@@ -1,8 +1,9 @@
 AddCSLuaFile()
 
 ENT.Type 				= "anim"
-
 ENT.Author 				= "TankNut"
+
+ENT.RenderGroup 		= RENDERGROUP_OPAQUE
 
 ENT.PhysgunDisabled 	= true
 ENT.m_tblToolsAllowed 	= {}
@@ -27,6 +28,10 @@ function ENT:SetupDataTables()
 	self:NetworkVar("Float", 0, "LastFire")
 end
 
+function ENT:GetSpread()
+	return math.rad(self.Spread * 0.5)
+end
+
 function ENT:DoFire()
 	if CurTime() - self:GetLastFire() < self.FireRate then
 		return
@@ -45,7 +50,7 @@ function ENT:DoFire()
 
 	self:EmitSound("Weapon_AR2.Single")
 
-	local spread = math.rad(self.Spread * 0.5)
+	local spread = self:GetSpread()
 	local parent = self:GetParent()
 
 	self:FireBullets({

@@ -10,6 +10,16 @@ ENT.ActivityTranslate = {
 		[ACT_RUN_AIM] = "runaimall1",
 		[ACT_GESTURE_RANGE_ATTACK1] = "gesture_shoot_ar2",
 		[ACT_GESTURE_RANGE_ATTACK2] = "grenthrow"
+	},
+	["smg1"] = {
+		[ACT_IDLE] = "idle1",
+		[ACT_COMBAT_IDLE] = "combatidle1_smg1",
+		[ACT_WALK] = "walk_all",
+		[ACT_WALK_AIM] = "walk_aiming_all",
+		[ACT_RUN] = "runall",
+		[ACT_RUN_AIM] = "runaimall1",
+		[ACT_GESTURE_RANGE_ATTACK1] = "gesture_shoot_smg1",
+		[ACT_GESTURE_RANGE_ATTACK2] = "grenthrow"
 	}
 }
 
