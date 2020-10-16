@@ -49,18 +49,7 @@ function ENT:Initialize()
 		self:SetLayerLooping(0, true)
 		self:SetLayerLooping(1, true)
 
-		local gun = ents.Create(self.GunClass)
-
-		gun:SetPos(self:WorldSpaceCenter())
-
-		gun:SetParent(self)
-		gun:AddEffects(bit.bor(EF_BONEMERGE, EF_BONEMERGE_FASTCULL, EF_PARENT_ANIMATES))
-
-		gun:Spawn()
-		gun:Activate()
-
-		self:DeleteOnRemove(gun)
-		self:SetGun(gun)
+		self:GiveWeapon(self.GunClass)
 	end
 end
 
@@ -169,6 +158,27 @@ if CLIENT then
 else
 	function ENT:Use(ply)
 		drive.PlayerStartDriving(ply, self, "drive_entity")
+	end
+
+	function ENT:GiveWeapon(class)
+		local gun = self:GetGun()
+
+		if IsValid(gun) then
+			gun:Remove()
+		end
+
+		gun = ents.Create(class)
+
+		gun:SetPos(self:WorldSpaceCenter())
+
+		gun:SetParent(self)
+		gun:AddEffects(bit.bor(EF_BONEMERGE, EF_BONEMERGE_FASTCULL, EF_PARENT_ANIMATES))
+
+		gun:Spawn()
+		gun:Activate()
+
+		self:DeleteOnRemove(gun)
+		self:SetGun(gun)
 	end
 
 	local damage = GetConVar("sk_npc_dmg_fraggrenade")
