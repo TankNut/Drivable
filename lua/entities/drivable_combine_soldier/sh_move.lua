@@ -115,7 +115,7 @@ function ENT:FinishMove(mv)
 
 	ang.p = 0
 
-	self:UpdateAnimation(mv)
+	self:UpdateAnimation()
 
 	self:SetNetworkOrigin(mv:GetOrigin())
 	self:SetAngles(ang)

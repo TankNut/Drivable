@@ -73,16 +73,12 @@ local function clampRemap(val, inMin, inMax, outMin, outMax)
 	return math.Clamp(math.Remap(val, inMin, inMax, outMin, outMax), math.min(outMin, outMax), math.max(outMin, outMax))
 end
 
-function ENT:UpdateAnimation(mv)
-	local ang, vel, length
+function ENT:UpdateAnimation()
+	local ang = self:GetAimAngle()
+	local vel = self:GetMoveSpeed()
+	local len = vel:Length()
 
-	if mv then
-		ang = mv:GetMoveAngles()
-		vel = mv:GetVelocity()
-		length = vel:Length()
-
-		self:SetPoseParameter("aim_pitch", ang.p)
-	end
+	self:SetPoseParameter("aim_pitch", math.NormalizeAngle(ang.p))
 
 	local weights = self:GetLayerWeights()
 
@@ -96,28 +92,26 @@ function ENT:UpdateAnimation(mv)
 		local timeOut = self:GetGrenadeTimer() - CurTime()
 
 		self:SetLayerWeight(1, clampRemap(timeIn, 0, 0.2, 1, 0) + clampRemap(timeOut, 0.2, 0, 0, 1))
-	elseif mv and length > 0 then
+	elseif len > 0 then
 		local diff = vel:Angle().y - ang.y
 
 		if diff > 180 then diff = diff - 360 end
 		if diff < -180 then diff = diff + 360 end
 
-		local sequence, rate
+		local sequence
 		local state = self:GetState()
 
-		local walk, run = self:GetSpeeds()
+		local walk = self:GetSpeeds()
 
-		if length > walk * self.Margin then
+		if len > walk * self.Margin then
 			sequence = state == STATE_COMBAT and ACT_RUN_AIM or ACT_RUN
-			rate = length / run
 		else
 			sequence = state == STATE_COMBAT and ACT_WALK_AIM or ACT_WALK
-			rate = length / walk
 		end
 
-		local walkRate = length / walk
+		local walkRate = len / walk
 
-		self:SetPlaybackRate(rate)
+		self:SetPlaybackRate(1)
 		self:SetPoseParameter("move_yaw", diff)
 		self:SetSequence(self:LookupActivity(sequence))
 
