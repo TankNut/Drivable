@@ -191,14 +191,6 @@ if CLIENT then
 			self:HandleThirdPersonView(ply, view, false)
 		else
 			self:HandleThirdPersonView(ply, view, true)
-
-			-- local index = self:LookupAttachment("eyes")
-			-- local att = self:GetAttachment(index)
-
-			-- view.znear = 1
-
-			-- view.origin = LocalToWorld(Vector(-5, 0, 0), angle_zero, att.Pos, att.Ang)
-			-- view.angles = ang
 		end
 	end
 end

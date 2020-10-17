@@ -238,7 +238,6 @@ end
 drive.Register("drive_entity", {
 	StartMove = function(self, mv, cmd)
 		if self.Entity:StartMove(self.Player, mv, cmd) then
-			self.Aborted = true
 			self:Stop()
 		end
 	end,
